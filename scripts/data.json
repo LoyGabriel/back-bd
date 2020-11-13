@@ -1,0 +1,100 @@
+[
+  {
+    "_id": 1,
+    "isActive": true,
+    "titulo": "Cancion uno",
+    "fechaDePublicacion": "1/1/2018",
+    "extension": "mp3",
+    "categoria": ["Rock", "Blues", "Musica moderna"],
+    "descargas": [300, 300],
+    "comentarios": [
+      {
+        "titulo": "un titulo",
+        "apodo": "un apodo",
+        "descripcion": "comentario sobre cancion 1",
+        "replicas": [
+          {
+            "apodo": "apodo replica",
+            "detalle": "detalle de la replica"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": 2,
+    "isActive": true,
+    "titulo": "Cancion dos",
+    "fechaDePublicacion": "1/1/2020",
+    "extension": "mp3",
+    "categoria": ["Blues", "Afro"],
+    "descargas": [300],
+    "comentarios": [
+      {
+        "titulo": "comento sobre cancion dos",
+        "apodo": "apodo cancion dos",
+        "comentario": "comentario sobre cancion 2"
+      }
+    ]
+  },
+  {
+    "_id": 3,
+    "isActive": true,
+    "titulo": "Cancion tres",
+    "fechaDePublicacion": "1/1/2019",
+    "extension": "wav",
+    "categoria": ["Jazz", "Muscia de pelicula"],
+    "descargas": [250, 100, 200],
+    "comentarios": [
+      {
+        "titulo": "comentario sobre cancion tres",
+        "apodo": "otro apodo",
+        "comentario": "comentario sobre cancion 3",
+        "replicas": [
+          {
+            "apodo": "replica3",
+            "detalle": "replica sobre comentario cancion 3",
+            "replicas": [
+              {
+                "apodo": "replica de replica",
+                "detalle": "otra replica mas"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": 4,
+    "isActive": true,
+    "titulo": "Cancion cuatro",
+    "fechaDePublicacion": "1/1/1970",
+    "extension": "ogg",
+    "categoria": ["Jazz", "Rock"],
+    "descargas": [],
+    "comentarios": [
+      {
+        "titulo": "cometo cancion 4",
+        "apodo": "apodo cuatro",
+        "comentario": "comentario sobre cancion 4",
+        "replicas": [
+          {
+            "apodo": "replica4",
+            "detalle": "esta es una replica sobre el comentario de la cancion 4"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": 5,
+    "isActive": true,
+    "titulo": "Cancion cinco",
+    "fechaDePublicacion": "1/1/2017",
+    "extension": "ogg",
+    "categoria": ["Jazz", "Latino"],
+    "descargas": [],
+    "comentarios": []
+  }
+]
