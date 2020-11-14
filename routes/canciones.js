@@ -1,17 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const Cancion = require('../models/Cancion')
-const multer= require('multer');
-const upload = multer({dest:'uploads/'});
+const express = require("express");
+const router = express.Router();
+const Cancion = require("../models/Cancion");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 // Buscar todas las canciones activas
 router.get("/", async (req, res) => {
   try {
-    const canciones = await Cancion.find(
-      {isActive: true}
-    )
-    console.log(canciones.length)
-    res.json(canciones)
+    const canciones = await Cancion.find({ isActive: true });
+    console.log(canciones.length);
+    res.json(canciones);
   } catch (err) {
     res.json({ message: err });
   }
@@ -46,7 +44,6 @@ router.get("/list", async (req, res) => {
 // Agregar cancion
 router.post("/", async (req, res) => {
   const cancion = new Cancion({
-    _id: 9, // TODO: autoincrementar id o usar el que da mongo
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
@@ -102,28 +99,28 @@ router.patch("/:cancionID", async (req, res) => {
 });
 
 // Agregar cancion
-router.post('/posta', upload.single('contenido'),async (req, res) => {
-  console.log(req.file)
-  console.log("pasa por el agregar cancion posta")
+router.post("/posta", upload.single("contenido"), async (req, res) => {
+  console.log(req.file);
+  console.log("pasa por el agregar cancion posta");
   const cancion = new Cancion({
-    _id:999,
+    _id: 999,
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
     extension: req.body.extension,
     //contenido: req.body.cancion,contenido,
     descargas: [],
-    comentarios: []
-  })
-  console.log("antes de crear la cancion")
+    comentarios: [],
+  });
+  console.log("antes de crear la cancion");
 
   try {
-    const cancionGuardada = await cancion.save()
-    console.log("CANCION GUARDADA ")
-    res.json(cancionGuardada)
+    const cancionGuardada = await cancion.save();
+    console.log("CANCION GUARDADA ");
+    res.json(cancionGuardada);
   } catch (err) {
-    res.json({message: err})
+    res.json({ message: err });
   }
-})
+});
 
-module.exports = router
+module.exports = router;
