@@ -59,6 +59,11 @@ const CancionSchema = mongoose.Schema({
     type: Boolean,
     default: true,
     required: true
+  },
+  contenido:{
+    data: Buffer,
+    contentType: String,
+    default:""    
   }
 }, {collection: 'canciones'})
 

@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Cancion = require('../models/Cancion')
+const multer= require('multer');
+const upload = multer({dest:'uploads/'});
 
 // Buscar todas las canciones activas
 router.get('/', async (req, res) => {
@@ -8,6 +10,7 @@ router.get('/', async (req, res) => {
     const canciones = await Cancion.find(
       {isActive: true}
     )
+    console.log(canciones.length)
     res.json(canciones)
   } catch (err) {
     res.json({message: err})
@@ -45,8 +48,10 @@ router.get('/list', async (req, res) => {
 
 // Agregar cancion
 router.post('/', async (req, res) => {
+  console.log("pasa por el agregar cancion")
+  console.log(req)
   const cancion = new Cancion({
-    _id: 6, // TODO: autoincrementar id o usar el que da mongo
+    _id: 9, // TODO: autoincrementar id o usar el que da mongo
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
@@ -96,6 +101,31 @@ router.patch('/:cancionID', async (req, res) => {
       {$set: {nombre: req.body.nombre}}
     )
     res.json(cancion)
+  } catch (err) {
+    res.json({message: err})
+  }
+})
+
+// Agregar cancion
+router.post('/posta', upload.single('contenido'),async (req, res) => {
+  console.log(req.file)
+  console.log("pasa por el agregar cancion posta")
+  const cancion = new Cancion({
+    _id:999,
+    isActive: true,
+    titulo: req.body.titulo,
+    categoria: req.body.categoria,
+    extension: req.body.extension,
+    //contenido: req.body.cancion,contenido,
+    descargas: [],
+    comentarios: []
+  })
+  console.log("antes de crear la cancion")
+
+  try {
+    const cancionGuardada = await cancion.save()
+    console.log("CANCION GUARDADA ")
+    res.json(cancionGuardada)
   } catch (err) {
     res.json({message: err})
   }
