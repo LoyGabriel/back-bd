@@ -99,7 +99,7 @@ router.patch("/:cancionID", async (req, res) => {
   try {
     const cancion = await Cancion.updateOne(
       { _id: req.params.cancionID },
-      { $set: { nombre: req.body.nombre } },
+      { $set: { titulo: req.body.titulo } },
       { $set: { categoria: req.body.categoria } }
     );
     res.json(cancion);
