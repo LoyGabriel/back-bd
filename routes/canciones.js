@@ -8,7 +8,7 @@ const upload = multer({ dest: "uploads/" });
 router.get("/", async (req, res) => {
   try {
     const canciones = await Cancion.find({ isActive: true });
-    console.log(canciones.length);
+    console.log("N° de canciones: ", canciones.length);
     res.json(canciones);
   } catch (err) {
     res.json({ message: err });
@@ -90,7 +90,8 @@ router.patch("/:cancionID", async (req, res) => {
   try {
     const cancion = await Cancion.updateOne(
       { _id: req.params.cancionID },
-      { $set: { nombre: req.body.nombre } }
+      { $set: { nombre: req.body.nombre } },
+      { $set: { categoria: req.body.categoria } }
     );
     res.json(cancion);
   } catch (err) {
