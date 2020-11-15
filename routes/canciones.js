@@ -51,25 +51,6 @@ router.get("/list", async (req, res) => {
   }
 });
 
-// Agregar cancion
-router.post("/", async (req, res) => {
-  const cancion = new Cancion({
-    isActive: true,
-    titulo: req.body.titulo,
-    categoria: req.body.categoria,
-    extension: req.body.extension,
-    descargas: [],
-    comentarios: [],
-  });
-
-  try {
-    const cancionGuardada = await cancion.save();
-    res.json(cancionGuardada);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
-
 // Buscar cancion por id
 router.get("/:cancionID", async (req, res) => {
   try {
@@ -108,23 +89,21 @@ router.patch("/:cancionID", async (req, res) => {
   }
 });
 
-// Agregar cancion posta
-router.post('/posta', upload.single('contenido'),async (req, res) => {
-  console.log(req.file)
-  const file= req.file;
-  if(file){
+// Agregar cancion 
+router.post('/', upload.single('contenido'),async (req, res) => {
+  const file=  req.body.contenido;
+  const cancionParam= req.body.cancion
+  if(file&&cancionParam){
   const cancion = new Cancion({
     isActive: true,
-    titulo: req.body.titulo,
-    categoria: req.body.categoria,
-    extension: req.body.extension,
+    titulo: cancionParam.titulo,
+    categoria: cancionParam.categoria,
+    extension: cancionParam.extension,
     descargas: [],
     comentarios: [],
     fileName: file.filename,
     filePath: file.path
   })
-  console.log("antes de crear la cancion")
-
   try {
     const cancionGuardada = await cancion.save();
     console.log("CANCION GUARDADA ");
