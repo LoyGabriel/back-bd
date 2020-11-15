@@ -78,10 +78,9 @@ router.patch("/delete/:cancionID", async (req, res) => {
 // Actualizar cancion
 router.patch("/:cancionID", async (req, res) => {
   try {
-    const cancion = await Cancion.updateOne(
+    const cancion = await Cancion.update(
       { _id: req.params.cancionID },
-      { $set: { titulo: req.body.titulo } },
-      { $set: { categoria: req.body.categoria } } // TODO: ver como setear un array en mongo!?!? esto no funca
+      { $set: { titulo: req.body.titulo, categoria: req.body.categoria } }
     );
     res.json(cancion);
   } catch (err) {
