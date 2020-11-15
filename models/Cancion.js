@@ -1,73 +1,76 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const Replica = mongoose.Schema({
-  _id:{
+  _id: {
     type: Number,
-    required: true
+    required: true,
   },
   detalle: {
     type: String,
-    required: true
+    required: true,
   },
   apodo: {
     type: String,
-    required: true
+    required: true,
   },
-  replica: [this]
-})
+  replica: [this],
+});
 
 const Comentario = mongoose.Schema({
   titulo: {
     type: String,
-    required: true
+    required: true,
   },
   descripcion: {
     type: String,
-    required: true
+    required: true,
   },
   apodo: {
     type: String,
-    required: true
-  },
-  replica: [Replica]
-})
-
-const CancionSchema = mongoose.Schema({
-  _id:{
-    type: Number,
-    required: true
-  },
-  titulo: {
-    type: String,
-    required: true
-  },
-  categoria: {
-    type: Array,
-    required: true
-  },
-  fechaDePublicacion: {
-    type: Date,
-    default: Date.now
-  },
-  comentarios: [Comentario],
-  descargas: {
-    type: Array,
     required: true,
-    default: []
   },
-  isActive: {
-    type: Boolean,
-    default: true,
-    required: true
-  },
-  fileName:{
-    type: String,
-    default: ""
-  },
-  filePath:{
-    type: String,
-    default: ""
-    }
+  replica: [Replica],
+});
+
+const CancionSchema = mongoose.Schema(
+  {
+    titulo: {
+      type: String,
+      required: true,
+    },
+    categoria: {
+      type: Array,
+      required: true,
+    },
+    fechaDePublicacion: {
+      type: Date,
+      default: Date.now,
+    },
+    comentarios: [Comentario],
+    descargas: {
+      type: Array,
+      required: true,
+      default: [],
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+      required: true,
+    },
+    contenido: {
+      data: Buffer,
+      contentType: String,
+      default: "",
+    },
+    fileName:{
+      type: String,
+      default: ""
+    },
+    filePath:{
+      type: String,
+      default: ""
+      }
 }, {collection: 'canciones'})
 
-module.exports = mongoose.model('Cancion', CancionSchema)
+
+module.exports = mongoose.model("Cancion", CancionSchema);

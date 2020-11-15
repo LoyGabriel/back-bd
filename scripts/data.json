@@ -1,6 +1,5 @@
 [
   {
-    "_id": 1,
     "isActive": true,
     "titulo": "Cancion uno",
     "fechaDePublicacion": "1/1/2018",
@@ -22,7 +21,6 @@
     ]
   },
   {
-    "_id": 2,
     "isActive": true,
     "titulo": "Cancion dos",
     "fechaDePublicacion": "1/1/2020",
@@ -38,7 +36,6 @@
     ]
   },
   {
-    "_id": 3,
     "isActive": true,
     "titulo": "Cancion tres",
     "fechaDePublicacion": "1/1/2019",
@@ -66,7 +63,6 @@
     ]
   },
   {
-    "_id": 4,
     "isActive": true,
     "titulo": "Cancion cuatro",
     "fechaDePublicacion": "1/1/1970",
@@ -88,7 +84,6 @@
     ]
   },
   {
-    "_id": 5,
     "isActive": true,
     "titulo": "Cancion cinco",
     "fechaDePublicacion": "1/1/2017",

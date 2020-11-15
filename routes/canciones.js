@@ -17,11 +17,9 @@ const upload = multer({dest:'uploads/'});
 // Buscar todas las canciones activas
 router.get("/", async (req, res) => {
   try {
-    const canciones = await Cancion.find(
-      {isActive: true}
-    )
-    console.log(canciones.length)
-    res.json(canciones)
+    const canciones = await Cancion.find({ isActive: true });
+    console.log("N° de canciones: ", canciones.length);
+    res.json(canciones);
   } catch (err) {
     res.json({ message: err });
   }
@@ -56,7 +54,6 @@ router.get("/list", async (req, res) => {
 // Agregar cancion
 router.post("/", async (req, res) => {
   const cancion = new Cancion({
-    _id: 9, // TODO: autoincrementar id o usar el que da mongo
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
@@ -98,12 +95,12 @@ router.patch("/delete/:cancionID", async (req, res) => {
 });
 
 // Actualizar cancion
-// TODO: agregar mas campos que se modifican, definir que viene del front
 router.patch("/:cancionID", async (req, res) => {
   try {
     const cancion = await Cancion.updateOne(
       { _id: req.params.cancionID },
-      { $set: { nombre: req.body.nombre } }
+      { $set: { nombre: req.body.nombre } },
+      { $set: { categoria: req.body.categoria } }
     );
     res.json(cancion);
   } catch (err) {
@@ -117,7 +114,6 @@ router.post('/posta', upload.single('contenido'),async (req, res) => {
   const file= req.file;
   if(file){
   const cancion = new Cancion({
-    _id:1008,
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
@@ -130,9 +126,9 @@ router.post('/posta', upload.single('contenido'),async (req, res) => {
   console.log("antes de crear la cancion")
 
   try {
-    const cancionGuardada = await cancion.save()
-    console.log("CANCION GUARDADA ")
-    res.json(cancionGuardada)
+    const cancionGuardada = await cancion.save();
+    console.log("CANCION GUARDADA ");
+    res.json(cancionGuardada);
   } catch (err) {
     console.log(err);
     res.json({message: err})
@@ -142,4 +138,4 @@ router.post('/posta', upload.single('contenido'),async (req, res) => {
 }
 })
 
-module.exports = router
+module.exports = router;
