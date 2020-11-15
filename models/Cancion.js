@@ -60,11 +60,14 @@ const CancionSchema = mongoose.Schema({
     default: true,
     required: true
   },
-  contenido:{
-    data: Buffer,
-    contentType: String,
-    default:""    
-  }
+  fileName:{
+    type: String,
+    default: ""
+  },
+  filePath:{
+    type: String,
+    default: ""
+    }
 }, {collection: 'canciones'})
 
 module.exports = mongoose.model('Cancion', CancionSchema)

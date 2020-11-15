@@ -2,6 +2,16 @@ const express = require('express')
 const router = express.Router()
 const Cancion = require('../models/Cancion')
 const multer= require('multer');
+
+const storage= multer.diskStorage({
+  destination: function(req,file, cb){
+    cb(null, {destination:'./uploads/'})
+  },
+  filename: function(req,file, cb){
+    cb(null, {filename:file.originalname});
+  }
+})
+
 const upload = multer({dest:'uploads/'});
 
 // Buscar todas las canciones activas
@@ -101,19 +111,21 @@ router.patch("/:cancionID", async (req, res) => {
   }
 });
 
-// Agregar cancion
+// Agregar cancion posta
 router.post('/posta', upload.single('contenido'),async (req, res) => {
   console.log(req.file)
-  console.log("pasa por el agregar cancion posta")
+  const file= req.file;
+  if(file){
   const cancion = new Cancion({
-    _id:999,
+    _id:1008,
     isActive: true,
     titulo: req.body.titulo,
     categoria: req.body.categoria,
     extension: req.body.extension,
-    //contenido: req.body.cancion,contenido,
     descargas: [],
-    comentarios: []
+    comentarios: [],
+    fileName: file.filename,
+    filePath: file.path
   })
   console.log("antes de crear la cancion")
 
@@ -122,8 +134,12 @@ router.post('/posta', upload.single('contenido'),async (req, res) => {
     console.log("CANCION GUARDADA ")
     res.json(cancionGuardada)
   } catch (err) {
+    console.log(err);
     res.json({message: err})
   }
+}else{
+  res.json("No toma el archivo")
+}
 })
 
 module.exports = router
