@@ -78,7 +78,7 @@ router.patch("/delete/:cancionID", async (req, res) => {
 // Actualizar cancion
 router.patch("/:cancionID", async (req, res) => {
   try {
-    const cancion = await Cancion.update(
+    const cancion = await Cancion.updateOne(
       { _id: req.params.cancionID },
       { $set: { titulo: req.body.titulo, categoria: req.body.categoria } }
     );
