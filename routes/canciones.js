@@ -85,7 +85,6 @@ router.patch("/delete/:cancionID", async (req, res) => {
 });
 
 // Actualizar cancion
-// TODO: agregar mas campos que se modifican, definir que viene del front
 router.patch("/:cancionID", async (req, res) => {
   try {
     const cancion = await Cancion.updateOne(
