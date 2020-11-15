@@ -1,18 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const Cancion = require('../models/Cancion')
-const multer= require('multer');
+const express = require("express");
+const router = express.Router();
+const Cancion = require("../models/Cancion");
+const multer = require("multer");
 
-const storage= multer.diskStorage({
-  destination: function(req,file, cb){
-    cb(null, {destination:'./uploads/'})
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, { destination: "./uploads/" });
   },
-  filename: function(req,file, cb){
-    cb(null, {filename:file.originalname});
-  }
-})
+  filename: function (req, file, cb) {
+    cb(null, { filename: file.originalname });
+  },
+});
 
-const upload = multer({dest:'uploads/'});
+const upload = multer({ dest: "uploads/" });
 
 // Buscar todas las canciones activas
 router.get("/", async (req, res) => {
@@ -81,7 +81,7 @@ router.patch("/:cancionID", async (req, res) => {
     const cancion = await Cancion.updateOne(
       { _id: req.params.cancionID },
       { $set: { titulo: req.body.titulo } },
-      { $set: { categoria: req.body.categoria } }
+      { $set: { categoria: req.body.categoria } } // TODO: ver como setear un array en mongo!?!? esto no funca
     );
     res.json(cancion);
   } catch (err) {
@@ -89,32 +89,32 @@ router.patch("/:cancionID", async (req, res) => {
   }
 });
 
-// Agregar cancion 
-router.post('/', upload.single('contenido'),async (req, res) => {
-  const file=  req.body.contenido;
-  const cancionParam= req.body.cancion
-  if(file&&cancionParam){
-  const cancion = new Cancion({
-    isActive: true,
-    titulo: cancionParam.titulo,
-    categoria: cancionParam.categoria,
-    extension: cancionParam.extension,
-    descargas: [],
-    comentarios: [],
-    fileName: file.filename,
-    filePath: file.path
-  })
-  try {
-    const cancionGuardada = await cancion.save();
-    console.log("CANCION GUARDADA ");
-    res.json(cancionGuardada);
-  } catch (err) {
-    console.log(err);
-    res.json({message: err})
+// Agregar cancion
+router.post("/", upload.single("contenido"), async (req, res) => {
+  const file = req.body.contenido;
+  const cancionParam = req.body.cancion;
+  if (file && cancionParam) {
+    const cancion = new Cancion({
+      isActive: true,
+      titulo: cancionParam.titulo,
+      categoria: cancionParam.categoria,
+      extension: cancionParam.extension,
+      descargas: [],
+      comentarios: [],
+      fileName: file.filename,
+      filePath: file.path,
+    });
+    try {
+      const cancionGuardada = await cancion.save();
+      console.log("CANCION GUARDADA ");
+      res.json(cancionGuardada);
+    } catch (err) {
+      console.log(err);
+      res.json({ message: err });
+    }
+  } else {
+    res.json("No toma el archivo");
   }
-}else{
-  res.json("No toma el archivo")
-}
-})
+});
 
 module.exports = router;
