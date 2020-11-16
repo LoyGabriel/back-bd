@@ -25,6 +25,33 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Buscar todas las canciones mas descargadas
+router.get("/mas-descargadas", async (req, res) => {
+  try {
+    const canciones = await Cancion.aggregate([
+      {
+        $match: {
+          isActive: true,
+        },
+      },
+      {
+        $project: {
+          titulo: "$titulo",
+          fechaDePublicacion: "$fechaDePublicacion",
+          extension: "$extension",
+          cantidadComentarios: { $size: "$comentarios" },
+          cantidadDescargas: { $sum: "$descargas" },
+        },
+      },
+      {$sort:{cantidadDescargas:-1}},
+      {$limit: 5}
+    ])
+    res.json(canciones);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 // Buscar todas las canciones activas, contar la cantidad de descargas y comentarios
 router.get("/list", async (req, res) => {
   try {
