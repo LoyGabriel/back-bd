@@ -43,7 +43,7 @@ router.get("/mas-descargadas", async (req, res) => {
           fechaDePublicacion: "$fechaDePublicacion",
           extension: "$extension",
           cantidadComentarios: { $size: "$comentarios" },
-          cantidadDescargas: { $sum: "$descargas" },
+          cantidadDescargas: { $size: "$descargas" },
         },
       },
       {$sort:{cantidadDescargas:-1}},
@@ -164,7 +164,6 @@ router.delete('/deleteFile/:fileName',async(req,res)=>{
   })
 module.exports = router;
 
-
 // Descargar cancion
 //4657dfdef4610c00309e6b3f182a1c14
 router.get('/download/:fileName',async(req,res)=>{  
@@ -179,6 +178,64 @@ router.get('/download/:fileName',async(req,res)=>{
 res.download
 (path);  
   })
+
+
+//FILTROS
+
+//filtrar por cantidad de elementos a mostrar
+router.get("/filtro/cantidad-elementos/:cantidad", async (req, res) => {
+  try {
+    const cantidad = Number(req.params.cantidad)
+    const canciones =  await Cancion.find({ isActive: true }).limit(cantidad);
+    res.json(canciones);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//filtrar por extension
+router.get("/filtro/extension/:extension", async (req, res) => {
+  try {
+    const extension = req.params.extension
+    const canciones =  await Cancion.find({extension:extension,isActive:true});
+    res.json(canciones);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//filtrar por periodo
+// formato de fechas en el body:
+//"date1":"2020-10-17T01:24:54.417Z",
+//"date2":"2020-12-17T01:24:54.417Z"
+router.post("/filtro/periodo", async (req, res) => {
+  try {
+    const canciones =  await Cancion.find({
+      fechaDePublicacion: {
+        $gte: new Date(req.body.date1),
+        $lt: new Date(req.body.date2)
+      },
+      isActive : true
+    });
+    res.json(canciones);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//filtrar por cantidad de comentarios
+router.get("/filtro/cantidad-comentarios/:cantidad", async (req, res) => {
+  try {
+    const cantidad = Number(req.params.cantidad)
+    const canciones =  await Cancion.find({ isActive: true, comentarios: {$size:cantidad  }});
+    res.json(canciones);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+
+
 module.exports = router;
 
 
