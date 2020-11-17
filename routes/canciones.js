@@ -1,20 +1,20 @@
 const express = require("express");
 
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/' );
+  },
+  filename: function (req, file, cb) {
+    cb(null,file.originalname );
+  },
+});
+const upload = multer({storage:storage});
 
 const router = express.Router();
 const Cancion = require("../models/Cancion");
 
-
-/*const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, { destination: "./uploads/" });
-  },
-  filename: function (req, file, cb) {
-    cb(null, { filename: file.originalname });
-  },
-});*/
 
 
 // Buscar todas las canciones activas
@@ -122,19 +122,19 @@ router.patch("/:cancionID", async (req, res) => {
 
 // Agregar cancion
 router.post("/", upload.single('contenido'), async (req, res) => {
-  console.log("Llega al agregar cancion")
+  console.log("Llega al agregar cancion", req.file)
   console.log("BODY", req.body);
   const cancionParam = req.body.cancion;
-  if (cancionParam) {
+  if (req.file&&req.body.titulo) {
     const cancion = new Cancion({
       isActive: true,
-      titulo: cancionParam.titulo,
-      categoria: cancionParam.categoria,
-      extension: cancionParam.extension,
+      titulo: req.body.titulo,
+      categoria: req.body.categoria,
+      extension: req.body.mimetype,
       descargas: [],
       comentarios: [],
-      fileName: req.body.filename,
-      filePath: req.body.path,
+      fileName: req.file.filename,
+      filePath: req.file.path,
     });
     try {
       const cancionGuardada = await cancion.save();
@@ -148,4 +148,16 @@ router.post("/", upload.single('contenido'), async (req, res) => {
     res.json("No toma el archivo");
   }
 });
+
+
+// Descargar cancion
+//4657dfdef4610c00309e6b3f182a1c14
+/*router.get('/download/:id',(req,res)=>{  
+ 
+  
+         var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/4657dfdef4610c00309e6b3f182a1c14';  
+         
+res.download
+(path);  
+  })  */
 module.exports = router;
