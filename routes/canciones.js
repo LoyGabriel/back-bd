@@ -1,5 +1,5 @@
 const express = require("express");
-
+const fs = require('fs')
 const multer = require("multer");
 
 const storage = multer.diskStorage({
@@ -149,6 +149,21 @@ router.post("/", upload.single('contenido'), async (req, res) => {
   }
 });
 
+// Eliminar archivo
+router.delete('/deleteFile/:fileName',async(req,res)=>{  
+  console.log("LLEGA AL Eliminar ARCHIVO ", req.params)
+  const cancion = req.body;
+    var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/'+ req.params.fileName;  
+    try {
+      fs.unlinkSync(path)
+      console.log("SE BORRO CON EXITO EL ARCHIVO")
+      //file removed
+    } catch(err) {
+      console.error(err)
+    }
+  })
+module.exports = router;
+
 
 // Descargar cancion
 //4657dfdef4610c00309e6b3f182a1c14
@@ -165,3 +180,5 @@ res.download
 (path);  
   })
 module.exports = router;
+
+
