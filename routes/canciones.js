@@ -133,7 +133,7 @@ router.post("/", upload.single('contenido'), async (req, res) => {
       extension: req.body.mimetype,
       descargas: [],
       comentarios: [],
-      fileName: req.file.filename,
+      fileName: req.file.originalname,
       filePath: req.file.path,
     });
     try {
@@ -152,12 +152,12 @@ router.post("/", upload.single('contenido'), async (req, res) => {
 
 // Descargar cancion
 //4657dfdef4610c00309e6b3f182a1c14
-/*router.get('/download/:id',(req,res)=>{  
- 
-  
-         var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/4657dfdef4610c00309e6b3f182a1c14';  
+router.get('/download/:documentName',(req,res)=>{  
+  console.log("PARAMWS",req.params)
+ cancionId= req.params.documentName
+         var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/'+ cancionId;  
          
 res.download
 (path);  
-  })  */
+  })
 module.exports = router;
