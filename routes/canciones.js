@@ -152,10 +152,15 @@ router.post("/", upload.single('contenido'), async (req, res) => {
 
 // Descargar cancion
 //4657dfdef4610c00309e6b3f182a1c14
-router.get('/download/:documentName',(req,res)=>{  
-  console.log("PARAMWS",req.params)
- cancionId= req.params.documentName
-         var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/'+ cancionId;  
+router.post('/download',async(req,res)=>{  
+  const cancion = req.body;
+  
+  cancionId= req.params.documentName
+         var path= 'C:/Users/loyga/Desktop/BD/back-bd/uploads/'+ cancion.fileName;  
+         await Cancion.updateOne(
+           {_id: cancion.id },
+           { $push: {descargas:300} }
+        );
          
 res.download
 (path);  
