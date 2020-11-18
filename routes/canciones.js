@@ -120,6 +120,21 @@ router.patch("/:cancionID", async (req, res) => {
   }
 });
 
+// Agregar comentario a la cancion
+router.put("/agregar-comentario", async (req, res) => {
+  console.log("AGREGAR COMENTARIO ", req.body)
+  try {
+    const cancion = await Cancion.updateOne(
+      { _id: req.body.cancionId },
+      { $push: { comentarios: req.body.comentario } }
+    );
+    res.json(cancion);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+
 // Agregar cancion
 router.post("/", upload.single('contenido'), async (req, res) => {
   console.log("Llega al agregar cancion", req.file)
