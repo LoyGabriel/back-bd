@@ -46,10 +46,9 @@ const CancionSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    comentarios: [Comentario],
+    comentarios: [String],
     descargas: {
       type: Array,
-      required: true,
       default: [],
     },
     isActive: {
@@ -69,7 +68,11 @@ const CancionSchema = mongoose.Schema(
     filePath:{
       type: String,
       default: ""
-      }
+      },
+    extension:{
+      type: String,
+      default: ""
+    },
 }, {collection: 'canciones'})
 
 

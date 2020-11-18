@@ -150,6 +150,7 @@ router.post("/", upload.single('contenido'), async (req, res) => {
       comentarios: [],
       fileName: req.file.originalname,
       filePath: req.file.path,
+      extension: req.body.extension
     });
     try {
       const cancionGuardada = await cancion.save();
