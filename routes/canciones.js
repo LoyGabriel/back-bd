@@ -184,8 +184,7 @@ router.get("/download/:id", async (req, res) => {
 
   const cancion = await Cancion.findOne({ _id: req.params.id });
   const path = UPLOAD_DIR + cancion.fileName;
-
-  // await Cancion.updateOne({ _id: cancion.id }, { $push: { descargas: 300 } });
+  await Cancion.updateOne({ _id: cancion.id }, { $push: { descargas: 300 } });
   res.download(path);
 });
 
