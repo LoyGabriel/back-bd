@@ -194,8 +194,8 @@ router.get("/download/:id", async (req, res) => {
   });
 });
 
-//FILTROS
-//filtrar por cantidad de elementos a mostrar
+// FILTROS
+// filtrar por cantidad de elementos a mostrar
 router.get("/filtro/cantidad-elementos/:cantidad", async (req, res) => {
   try {
     const cantidad = Number(req.params.cantidad);
