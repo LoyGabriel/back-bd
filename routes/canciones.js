@@ -199,7 +199,30 @@ router.get("/download/:id", async (req, res) => {
 router.get("/filtro/cantidad-elementos/:cantidad", async (req, res) => {
   try {
     const cantidad = Number(req.params.cantidad);
-    const canciones = await Cancion.find({ isActive: true }).limit(cantidad);
+    const canciones = await Cancion.aggregate([
+      {
+        $match: {
+          isActive: true,
+        },
+      },
+      {
+        $project: {
+          titulo: "$titulo",
+          fechaDePublicacion: "$fechaDePublicacion",
+          extension: "$extension",
+          comentarios: { $size: "$comentarios" },
+          descargas: { $size: "$descargas" },
+        },
+      },
+      {
+        $sort: {
+          descargas: -1,
+        },
+      },
+      {
+        $limit: cantidad,
+      },
+    ]);
     res.json(canciones);
   } catch (err) {
     res.json({ message: err });
