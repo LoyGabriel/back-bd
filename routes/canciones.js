@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const multer = require("multer");
+const UPLOAD_DIR = "L:\\Bases de datos\\back-bd\\uploads\\";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -90,7 +91,6 @@ router.get("/:cancionID", async (req, res) => {
 });
 
 // Eliminar cancion
-// TODO: agregar logica para eliminar archivo
 router.patch("/delete/:cancionID", async (req, res) => {
   try {
     const cancion = await Cancion.findByIdAndUpdate(
@@ -165,7 +165,7 @@ router.post("/", upload.single("contenido"), async (req, res) => {
 router.delete("/deleteFile/:fileName", async (req, res) => {
   console.log("LLEGA AL Eliminar ARCHIVO ", req.params);
   const cancion = req.body;
-  const path = "L:\\Bases de datos\\back-bd\\uploads\\" + req.params.fileName;
+  const path = UPLOAD_DIR + req.params.fileName;
   try {
     fs.unlinkSync(path);
     console.log("SE BORRO CON EXITO EL ARCHIVO");
@@ -182,7 +182,7 @@ module.exports = router;
 router.get("/download/:fileName", async (req, res) => {
   console.log("LLEGA AL DESCARGAR ", req.params);
   const cancion = req.body;
-  var path = "C:/Users/loyga/Desktop/BD/back-bd/uploads/" + req.params.fileName;
+  var path = UPLOAD_DIR + req.params.fileName;
   /* await Cancion.updateOne(
            {_id: cancion.id },
            { $push: {descargas:300} }
