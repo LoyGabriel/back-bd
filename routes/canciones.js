@@ -179,11 +179,11 @@ module.exports = router;
 
 // Descargar cancion
 // 4657dfdef4610c00309e6b3f182a1c14
-router.get("/download/:fileName", async (req, res) => {
+router.get("/download/:id", async (req, res) => {
   console.log("LLEGA AL DESCARGAR ", req.params);
 
-  const cancion = req.body;
-  const path = UPLOAD_DIR + req.params.fileName;
+  const cancion = await Cancion.findOne({ _id: req.params.id });
+  const path = UPLOAD_DIR + cancion.fileName;
 
   // await Cancion.updateOne({ _id: cancion.id }, { $push: { descargas: 300 } });
   res.download(path);
