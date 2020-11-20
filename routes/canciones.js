@@ -180,16 +180,21 @@ module.exports = router;
 // Descargar cancion
 // 4657dfdef4610c00309e6b3f182a1c14
 router.get("/download/:id", async (req, res) => {
-  console.log("LLEGA AL DESCARGAR ", req.params);
-
   const cancion = await Cancion.findOne({ _id: req.params.id });
   const path = UPLOAD_DIR + cancion.fileName;
-  await Cancion.updateOne({ _id: cancion.id }, { $push: { descargas: 300 } });
-  res.download(path);
+  res.download(path, async (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      await Cancion.updateOne(
+        { _id: cancion.id },
+        { $push: { descargas: 111 } }
+      );
+    }
+  });
 });
 
 //FILTROS
-
 //filtrar por cantidad de elementos a mostrar
 router.get("/filtro/cantidad-elementos/:cantidad", async (req, res) => {
   try {
