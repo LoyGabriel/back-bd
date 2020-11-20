@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/node,vscode,webstorm
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,vscode,webstorm
 
@@ -226,3 +225,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/node,vscode,webstorm
 .idea
+/uploads/
