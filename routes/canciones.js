@@ -178,16 +178,14 @@ router.delete("/deleteFile/:fileName", async (req, res) => {
 module.exports = router;
 
 // Descargar cancion
-//4657dfdef4610c00309e6b3f182a1c14
+// 4657dfdef4610c00309e6b3f182a1c14
 router.get("/download/:fileName", async (req, res) => {
   console.log("LLEGA AL DESCARGAR ", req.params);
-  const cancion = req.body;
-  var path = UPLOAD_DIR + req.params.fileName;
-  /* await Cancion.updateOne(
-           {_id: cancion.id },
-           { $push: {descargas:300} }
-        );*/
 
+  const cancion = req.body;
+  const path = UPLOAD_DIR + req.params.fileName;
+
+  // await Cancion.updateOne({ _id: cancion.id }, { $push: { descargas: 300 } });
   res.download(path);
 });
 
