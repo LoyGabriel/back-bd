@@ -55,7 +55,6 @@ router.get("/", async (req, res) => {
         cantidadDescargas: { $size: "$descargas" },
       },
     },
-    { $sort: { cantidadDescargas: -1 } },
   ];
 
   addFiltroExtension(pipeline, reporte.extension);
