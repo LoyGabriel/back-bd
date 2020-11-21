@@ -27,14 +27,14 @@ const addFiltroCantidadComentarios = (pipeline, comentarios) => {
 const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
   if (fechaInicio || fechaFin) {
     pipeline[0].$match.fechaDePublicacion = {};
-  }
 
-  if (fechaInicio) {
-    pipeline[0].$match.fechaDePublicacion.$gte = new Date(fechaInicio);
-  }
+    if (fechaInicio) {
+      pipeline[0].$match.fechaDePublicacion.$gte = new Date(fechaInicio);
+    }
 
-  if (fechaFin) {
-    pipeline[0].$match.fechaDePublicacion.$lt = new Date(fechaFin);
+    if (fechaFin) {
+      pipeline[0].$match.fechaDePublicacion.$lt = new Date(fechaFin);
+    }
   }
 };
 
