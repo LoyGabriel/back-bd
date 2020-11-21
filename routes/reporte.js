@@ -20,6 +20,10 @@ const addFiltroExtension = (pipline, extension) => {
   if (extension) pipline[0].$match.extension = extension;
 };
 
+const addFiltroCantidadComentarios = (pipeline, comentarios) => {
+  if (comentarios) pipeline[0].$match.comentarios = { $size: comentarios };
+};
+
 router.get("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
@@ -41,6 +45,9 @@ router.get("/", async (req, res) => {
   ];
   addFiltroExtension(pipeline, reporte.extension);
   addLimiteCantidad(pipeline, reporte.cantidad);
+  addFiltroCantidadComentarios(pipeline, reporte.comentarios);
+
+  pipeline.push({ $sort: { cantidadDescargas: -1 } });
   const canciones = await Cancion.aggregate(pipeline);
   res.json(canciones);
 });
