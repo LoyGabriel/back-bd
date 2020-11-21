@@ -24,6 +24,20 @@ const addFiltroCantidadComentarios = (pipeline, comentarios) => {
   if (comentarios) pipeline[0].$match.comentarios = { $size: comentarios };
 };
 
+const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
+  if (fechaInicio || fechaFin) {
+    pipeline[0].$match.fechaDePublicacion = {};
+  }
+
+  if (fechaInicio) {
+    pipeline[0].$match.fechaDePublicacion.$gte = new Date(fechaInicio);
+  }
+
+  if (fechaFin) {
+    pipeline[0].$match.fechaDePublicacion.$lt = new Date(fechaFin);
+  }
+};
+
 router.get("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
@@ -43,9 +57,11 @@ router.get("/", async (req, res) => {
     },
     { $sort: { cantidadDescargas: -1 } },
   ];
+
   addFiltroExtension(pipeline, reporte.extension);
-  addLimiteCantidad(pipeline, reporte.cantidad);
   addFiltroCantidadComentarios(pipeline, reporte.comentarios);
+  addLimiteCantidad(pipeline, reporte.cantidad);
+  addLimiteFecha(pipeline, reporte.fechaInicio, reporte.fechaFin);
 
   pipeline.push({ $sort: { cantidadDescargas: -1 } });
   const canciones = await Cancion.aggregate(pipeline);
