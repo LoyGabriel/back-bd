@@ -4,7 +4,8 @@ const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cancionesRoute = require("./routes/canciones");
-const categoriasRoute= require("./routes/categorias");
+const categoriasRoute = require("./routes/categorias");
+const reporteRoute = require("./routes/reporte");
 const atlasSchesma =
   "mongodb+srv://user:mongoDB1234!@cluster0.tj8kp.mongodb.net/mongo?retryWrites=true&w=majority";
 const localSchema = "mongodb://localhost:27017";
@@ -24,8 +25,8 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 app.use("/cancion", cancionesRoute);
+app.use("/reporte", reporteRoute);
 app.use("/categoria", categoriasRoute);
-
 
 app.get("/", (req, res) => {
   res.send("Home");
