@@ -16,6 +16,10 @@ const addLimiteCantidad = (pipeline, cantidad) => {
   if (cantidad) pipeline.push({ $limit: cantidad });
 };
 
+const addFiltroExtension = (pipline, extension) => {
+  if (extension) pipline[0].$match.extension = extension;
+};
+
 router.get("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
@@ -35,6 +39,7 @@ router.get("/", async (req, res) => {
     },
     { $sort: { cantidadDescargas: -1 } },
   ];
+  addFiltroExtension(pipeline, reporte.extension);
   addLimiteCantidad(pipeline, reporte.cantidad);
   const canciones = await Cancion.aggregate(pipeline);
   res.json(canciones);
