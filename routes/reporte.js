@@ -1,12 +1,12 @@
-/*
- * REPORTE
- * {
-    "cantidad": 1,
-    "extension": "mp3",
-    "comentarios": 2,
-    "descargas": null
-   }
- * */
+/* json reporte
+{
+  "cantidad": 10,
+  "extension": "mp3",
+  "comentarios": 11,
+  "descargas": 30,
+  "fechaInicio": "2020-1-19T02:00:00.000Z",
+  "fechaFin": "2020-11-19T02:00:00.000Z"
+}*/
 
 const express = require("express");
 const Cancion = require("../models/Cancion");
