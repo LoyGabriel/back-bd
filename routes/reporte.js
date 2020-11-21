@@ -38,7 +38,7 @@ const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
   }
 };
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
     {
@@ -51,8 +51,8 @@ router.get("/", async (req, res) => {
         titulo: "$titulo",
         fechaDePublicacion: "$fechaDePublicacion",
         extension: "$extension",
-        cantidadComentarios: { $size: "$comentarios" },
-        cantidadDescargas: { $size: "$descargas" },
+        comentarios: { $size: "$comentarios" },
+        descargas: { $size: "$descargas" },
       },
     },
   ];
@@ -62,7 +62,7 @@ router.get("/", async (req, res) => {
   addLimiteCantidad(pipeline, reporte.cantidad);
   addLimiteFecha(pipeline, reporte.fechaInicio, reporte.fechaFin);
 
-  pipeline.push({ $sort: { cantidadDescargas: -1 } });
+  pipeline.push({ $sort: { descargas: -1 } });
   const canciones = await Cancion.aggregate(pipeline);
   res.json(canciones);
 });
