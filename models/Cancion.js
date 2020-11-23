@@ -46,7 +46,7 @@ const CancionSchema = mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    comentarios: [String],
+    comentarios: [Comentario],
     descargas: {
       type: Array,
       default: [],
