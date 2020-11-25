@@ -3,7 +3,7 @@
     "isActive": true,
     "titulo": "Cancion uno",
     "fechaDePublicacion": "1/1/2018",
-    "extension": "mp3",
+    "extension": ".mp3",
     "categoria": ["Rock", "Blues", "Musica moderna"],
     "descargas": [300, 300],
     "comentarios": [
@@ -14,7 +14,13 @@
         "replicas": [
           {
             "apodo": "apodo replica",
-            "detalle": "detalle de la replica"
+            "detalle": "detalle de la replica",
+            "replicas": [
+              {
+                "apodo": "subreplica",
+                "detalle": "esta es una subreplica"
+              }
+            ]
           }
         ]
       }
@@ -24,7 +30,7 @@
     "isActive": true,
     "titulo": "Cancion dos",
     "fechaDePublicacion": "1/1/2020",
-    "extension": "mp3",
+    "extension": ".mp3",
     "categoria": ["Blues", "Afro"],
     "descargas": [300],
     "comentarios": [
@@ -39,7 +45,7 @@
     "isActive": true,
     "titulo": "Cancion tres",
     "fechaDePublicacion": "1/1/2019",
-    "extension": "wav",
+    "extension": ".wav",
     "categoria": ["Jazz", "Muscia de pelicula"],
     "descargas": [250, 100, 200],
     "comentarios": [
@@ -66,7 +72,7 @@
     "isActive": true,
     "titulo": "Cancion cuatro",
     "fechaDePublicacion": "1/1/1970",
-    "extension": "ogg",
+    "extension": ".ogg",
     "categoria": ["Jazz", "Rock"],
     "descargas": [],
     "comentarios": [
@@ -87,7 +93,7 @@
     "isActive": true,
     "titulo": "Cancion cinco",
     "fechaDePublicacion": "1/1/2017",
-    "extension": "ogg",
+    "extension": ".ogg",
     "categoria": ["Jazz", "Latino"],
     "descargas": [],
     "comentarios": []
