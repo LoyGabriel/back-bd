@@ -1,8 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const multer = require("multer");
-const UPLOAD_DIR_Nico = "L:\\Bases de datos\\back-bd\\uploads\\";
-const UPLOAD_DIR_Loy = "C:/Users/loyga/Desktop/BD/back-bd/uploads/";
+const UPLOAD_DIR = "L:\\Bases de datos\\back-bd\\uploads\\";
+// const UPLOAD_DIR = "C:/Users/loyga/Desktop/BD/back-bd/uploads/";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -91,20 +91,6 @@ router.get("/:cancionID", async (req, res) => {
   }
 });
 
-// Eliminar cancion
-router.patch("/delete/:cancionID", async (req, res) => {
-  try {
-    const cancion = await Cancion.findByIdAndUpdate(
-      { _id: req.params.cancionID },
-      { $set: { isActive: false } }
-    );
-    res.json(cancion);
-  } catch (err) {
-    console.log(err);
-    res.json({ message: err });
-  }
-});
-
 // Actualizar cancion
 router.patch("/:cancionID", async (req, res) => {
   try {
@@ -162,16 +148,32 @@ router.post("/", upload.single("contenido"), async (req, res) => {
   }
 });
 
+// Eliminar cancion
+router.patch("/delete/:cancionID", async (req, res) => {
+  try {
+    const cancion = await Cancion.findByIdAndUpdate(
+      { _id: req.params.cancionID },
+      { $set: { isActive: false } }
+    );
+    const path = UPLOAD_DIR + cancion.fileName;
+    fs.unlinkSync(path);
+    res.json(cancion);
+  } catch (err) {
+    await Cancion.findByIdAndUpdate(
+      { _id: req.params.cancionID },
+      { $set: { isActive: true } }
+    );
+    res.status(500).send("Error del sistema");
+  }
+});
+
 // Eliminar archivo
 router.delete("/deleteFile/:fileName", async (req, res) => {
   console.log("LLEGA AL Eliminar ARCHIVO ", req.params);
   const cancion = req.body;
-  const path = 
-  //UPLOAD_DIR_Nico
-  UPLOAD_DIR_Loy
-   + req.params.fileName;
+  const path = UPLOAD_DIR + req.params.fileName;
   try {
-    fs.unlinkSync(path);
+    await fs.unlinkSync(path);
     console.log("SE BORRO CON EXITO EL ARCHIVO");
     res.json({ message: "se elimino el archivo" });
     //file removed
@@ -185,10 +187,7 @@ module.exports = router;
 // 4657dfdef4610c00309e6b3f182a1c14
 router.get("/download/:id", async (req, res) => {
   const cancion = await Cancion.findOne({ _id: req.params.id });
-  const path = 
-  //UPLOAD_DIR_Nico
-  UPLOAD_DIR_Loy 
-  + cancion.fileName;
+  const path = UPLOAD_DIR + cancion.fileName;
   res.download(path, async (err) => {
     if (err) {
       console.log(err);
