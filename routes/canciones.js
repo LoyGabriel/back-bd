@@ -167,22 +167,6 @@ router.patch("/delete/:cancionID", async (req, res) => {
   }
 });
 
-// Eliminar archivo
-router.delete("/deleteFile/:fileName", async (req, res) => {
-  console.log("LLEGA AL Eliminar ARCHIVO ", req.params);
-  const cancion = req.body;
-  const path = UPLOAD_DIR + req.params.fileName;
-  try {
-    await fs.unlinkSync(path);
-    console.log("SE BORRO CON EXITO EL ARCHIVO");
-    res.json({ message: "se elimino el archivo" });
-    //file removed
-  } catch (err) {
-    console.error(err);
-  }
-});
-module.exports = router;
-
 // Descargar cancion
 // 4657dfdef4610c00309e6b3f182a1c14
 router.get("/download/:id", async (req, res) => {
