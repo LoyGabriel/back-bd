@@ -1,7 +1,9 @@
 const express = require("express");
 const fs = require("fs");
+require("dotenv/config");
 const multer = require("multer");
-const UPLOAD_DIR = "L:\\Bases de datos\\back-bd\\uploads\\";
+const UPLOAD_DIR = process.env.UPLOAD_DIR;
+// Poner varibales de configuracion en un archivo .env
 // const UPLOAD_DIR = "C:/Users/loyga/Desktop/BD/back-bd/uploads/";
 
 const storage = multer.diskStorage({

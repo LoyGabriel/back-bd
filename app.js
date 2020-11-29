@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv/config");
 const app = express();
 
 const mongoose = require("mongoose");
@@ -6,9 +7,11 @@ const bodyParser = require("body-parser");
 const cancionesRoute = require("./routes/canciones");
 const categoriasRoute = require("./routes/categorias");
 const reporteRoute = require("./routes/reporte");
-const atlasSchesma =
-  "mongodb+srv://user:mongoDB1234!@cluster0.tj8kp.mongodb.net/mongo?retryWrites=true&w=majority";
-const localSchema = "mongodb://localhost:27017";
+
+// Poner varibales de configuracion en un archivo .env
+// const atlasSchesma =
+//   "mongodb+srv://user:mongoDB1234!@cluster0.tj8kp.mongodb.net/mongo?retryWrites=true&w=majority";
+// const localSchema = "mongodb://localhost:27017";
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -33,8 +36,7 @@ app.get("/", (req, res) => {
 });
 
 mongoose.connect(
-   atlasSchesma,
-  //localSchema,
+  process.env.MONGO_SCHEMA,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
