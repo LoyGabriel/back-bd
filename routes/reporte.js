@@ -17,15 +17,22 @@ const addLimiteCantidad = (pipeline, cantidad) => {
 };
 
 const addFiltroExtension = (pipline, extension) => {
-  if (extension) pipline[0].$match.extension = extension;
+  if (extension) {
+    if (!pipline[0].$match) pipline[0] = { $match: {} };
+    pipline[0].$match.extension = extension;
+  }
 };
 
 const addFiltroCantidadComentarios = (pipeline, comentarios) => {
-  if (comentarios) pipeline[0].$match.comentarios = { $size: comentarios };
+  if (comentarios) {
+    if (!pipeline[0].$match) pipeline[0] = { $match: {} };
+    pipeline[0].$match.comentarios = { $size: comentarios };
+  }
 };
 
 const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
   if (fechaInicio || fechaFin) {
+    if (!pipeline[0].$match) pipeline[0] = { $match: {} };
     pipeline[0].$match.fechaDePublicacion = {};
 
     if (fechaInicio) {
@@ -41,11 +48,6 @@ const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
 router.post("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
-    {
-      $match: {
-        isActive: true,
-      },
-    },
     {
       $project: {
         titulo: "$titulo",
