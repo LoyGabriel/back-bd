@@ -48,6 +48,7 @@ const addLimiteFecha = (pipeline, fechaInicio, fechaFin) => {
 router.post("/", async (req, res) => {
   const reporte = req.body;
   const pipeline = [
+    { $match: {} },
     {
       $project: {
         titulo: "$titulo",
@@ -63,7 +64,6 @@ router.post("/", async (req, res) => {
   addFiltroCantidadComentarios(pipeline, reporte.comentarios);
   addLimiteCantidad(pipeline, reporte.cantidad);
   addLimiteFecha(pipeline, reporte.fechaInicio, reporte.fechaFin);
-
   pipeline.push({ $sort: { descargas: -1 } });
   const canciones = await Cancion.aggregate(pipeline);
   res.json(canciones);
